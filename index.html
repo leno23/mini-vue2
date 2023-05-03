@@ -19,14 +19,13 @@
         data() {
           return {
             name: 'zf',
-            a: {
-              age: 10
-            }
+            arr: [1, { age: 10 }, 3]
           }
         }
       })
-      vm._data.a = { age: 4 }
+      //   vm._data.a = { age: 4 }
       console.log(vm)
+      vm.arr.push({ b: 3 })
     </script>
   </body>
 </html>

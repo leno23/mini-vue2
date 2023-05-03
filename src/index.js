@@ -1,5 +1,9 @@
-let a = 2
-console.log(a);
+import { initMixin } from './init'
 
-
-export default a
+function Vue(options){
+    this._init(options)
+    
+}
+// 增加原型上面的方法
+initMixin(Vue)
+export default Vue

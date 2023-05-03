@@ -1,0 +1,19 @@
+{
+  "name": "mini-vue2",
+  "version": "1.0.0",
+  "main": "./src/index.js",
+  "type": "module",
+  "repository": "https://github.com/leno23/mini-vue2.git",
+  "author": "wuyangfan <1102042793@qq.com>",
+  "license": "MIT",
+  "scripts": {
+    "serve": "rollup -c -w"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.8",
+    "@babel/preset-env": "^7.21.5",
+    "rollup": "^3.21.3",
+    "rollup-plugin-babel": "^4.4.0"
+  },
+  "dependencies": {}
+}

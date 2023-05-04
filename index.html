@@ -11,7 +11,11 @@
     <title>Document</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <ul>
+        <li>123</li>
+      </ul>
+    </div>
     <script src="./dist/vue.js"></script>
     <script>
       const vm = new Vue({
@@ -24,7 +28,7 @@
         }
       })
       //   vm._data.a = { age: 4 }
-      console.log(vm)
+      console.log('vm', vm)
       vm.arr.push({ b: 3 })
     </script>
   </body>

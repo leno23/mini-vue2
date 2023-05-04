@@ -1,4 +1,5 @@
 import { popTarget, pushTarget } from './dep'
+import { queueWatcher } from './scheduler'
 
 let id = 0
 export class Watcher {
@@ -15,9 +16,11 @@ export class Watcher {
         // 初始化取一次值
         this.get()
     }
+    // 组件状态变化时触发
     get() {
         // 一个属性在不同个组件中使用，一个组件包含多个属性
         // 一个属性对应多个watcher，同时一个watcher可以对应多个属性
+        // 状态变化是，标记当前状态对应的watcher
         pushTarget(this)
         this.getters() // get vm.name
         popTarget()
@@ -31,7 +34,11 @@ export class Watcher {
         this.deps.push(dep)
         dep.addSub(this)
     }
-    update(){
+    // 不同类型的watch走不同的类型
+    run(){
         this.get()
+    }
+    update(){
+        queueWatcher(this)
     }
 }

@@ -5,6 +5,7 @@ export class Dep {
         this.id = id++
         this.subs = []
     }
+    // 收集依赖
     depend() {
         if (Dep.target) {
             Dep.target.addDep(this)

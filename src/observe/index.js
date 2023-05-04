@@ -4,6 +4,7 @@ import { Dep } from './dep';
 
 class Observer {
     constructor(data) {
+        this.dep = new Dep()
         Object.defineProperty(data, '__ob__', {
             value: this,
             enumerable: false // 属性不可枚举
@@ -29,15 +30,35 @@ class Observer {
     }
 }
 
+//  对数组中的数组或者对象进行依赖收集
+function dependArray (value) {
+    for(let i = 0; i < value.length; i++){
+        let current = value[i]
+        current.__ob__ && current.__ob__.dep.depend()
+        if(Array.isArray(current)){
+            dependArray(current)
+        }
+    }
+}
+
+// 数组的监听针对整个数组  对象的监听对每个属性添加getter setter,都有一个dep,dep中存放watcher
 function defineReactive(data, key, value) {
     // 对value进行递归处理
     if (key === '__ob__') return
     let dep = new Dep()
-    observe(value)
+    let childOb = observe(value)
     Object.defineProperty(data, key, {
         get() {
             if(Dep.target){
                 dep.depend()
+                // 如果value是数组或者对象，也要让数组和对象收集watcher
+                if(childOb){
+                    // 数组或者对象也记录watcher
+                    childOb.dep.depend()
+                    if(Array.isArray(value)){
+                        dependArray(value)
+                    }
+                }
             }
             return value
         },
@@ -54,6 +75,6 @@ function defineReactive(data, key, value) {
 }
 export function observe(data) {
     if (!isObject(data)) return;
-    if (data.__ob__) return
+    if (data.__ob__) return data.__ob__
     return new Observer(data)
 }

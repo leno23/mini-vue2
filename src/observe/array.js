@@ -4,6 +4,7 @@ let methods = ['push', 'pop', 'shift', 'unshift', 'splice', 'sort']
 
 methods.forEach(method => {
     arrayMethods[method] = function (...args) {
+        oldArrayPrototype[method].call(this, ...args)
         let inserted;
         let ob = this.__ob__
         switch (method) {
@@ -18,6 +19,6 @@ methods.forEach(method => {
                 break;
         }
         if (inserted) ob.observeArray(inserted)
-        oldArrayPrototype[method].call(this, ...args)
+        ob.dep.notify()
     }
 })

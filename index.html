@@ -17,7 +17,7 @@
         width: 200px;
         border: 1px solid #ccc;
       ">
-      <span>hello {{name}} world -</span>
+      <span>hello {{arr}} world -</span>
     </div>
     <script src="./dist/vue.js"></script>
     <!-- <script src="https://unpkg.com/vue@2.6"></script> -->
@@ -26,17 +26,32 @@
         data() {
           return {
             name: 'zf',
-            arr: [1, { age: 10 }, 3]
+            arr: [[1], { age: 10 }, 3]
           }
+        },
+        methods: {},
+        watch: {
+          name(oldVal, newVal) {
+            console.log('-----',oldVal, newVal)
+          },
+          name: [
+            () => {
+              console.log('name1')
+            },
+            () => {
+              console.log('name2')
+            }
+          ]
         }
       })
       vm.$mount('#app')
       //   vm._data.a = { age: 4 }
       console.log('vm', vm)
+      vm.arr[0].push(7)
       // vm.arr.push({ b: 3 })
       setTimeout(() => {
         vm.name = 'jack'
-        vm.name = 'tom'
+        // vm.name = 'tom'
         // 同步更新，赋值多次更新多次，需要防抖处理，在最后一个变更结束时更新
         // 数据修改，重新调用render方法生成vnode，然后重新生成新的dom
         // vm._update(vm._render())

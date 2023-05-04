@@ -25,11 +25,13 @@ if (Promise) {
     timerFn = () => {
         text.textContent = (text.textContent + 1) % 2
     }
+// setImmediate  只有IE才认
 } else if (setImmediate) {
     timerFn = () => {
         setImmediate(flushCallbacks)
     }
 } else {
+    // setTimeout在IOS有bug，有时会不执行
     timerFn = setTimeout(flushCallbacks)
 }
 

@@ -1,4 +1,4 @@
-import { compileToFunction } from './compiler/index'
+import { compileToFunction } from './compiler/parse'
 import { initState } from './state'
 
 export function initMixin(Vue) {

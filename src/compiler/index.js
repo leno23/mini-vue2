@@ -10,10 +10,10 @@ var attribute = /^\s*([^\s"'<>\/=]+)(?:\s*(=)\s*(?:"([^"]*)"+|'([^']*)'+|([^\s"'
 //  />  标签的结束
 const startTagClose = /^\s*(\/?)>/;
 
-const defaultTagRE = /\{\{((?:.|\r?\n)+?)\}\}/  //{{ msg }}
 
 function createAstElement(tagName, attrs) {
     return {
+        type: 1,
         tag: tagName,
         children: [],
         parent: null,
@@ -53,7 +53,7 @@ function chars(text) {
     }
 }
 
-function parseHTML(html) {
+export function parseHTML(html) {
     function advance(len) {
         html = html.slice(len)
     }
@@ -69,7 +69,7 @@ function parseHTML(html) {
             let attr;
             // 到结尾了，说明没有属性需要处理
             while (!(end = html.match(startTagClose)) && (attr = html.match(attribute))) {
-                console.log(attr);
+                // console.log(attr);
                 match.attrs.push({
                     name: attr[1],
                     value: attr[3] || attr[4] || attr[5]
@@ -109,9 +109,5 @@ function parseHTML(html) {
         }
 
     }
-}
-
-export function compileToFunction(template) {
-    parseHTML(template)
-    console.log(root);
+    return root
 }

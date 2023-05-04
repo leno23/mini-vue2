@@ -1,4 +1,5 @@
 import { compileToFunction } from './compiler/parse'
+import { mountCompoment } from './lifecycle'
 import { initState } from './state'
 
 export function initMixin(Vue) {
@@ -16,6 +17,7 @@ export function initMixin(Vue) {
         const vm = this
         const options = vm.$options
         el = document.querySelector(el)
+        vm.$el = el
         if (!options.render) {
             let template = options.template
             if (!template && el) {
@@ -25,6 +27,7 @@ export function initMixin(Vue) {
                 options.render = render
             }
         }
+        mountCompoment(vm,el)
     }
 
 }

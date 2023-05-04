@@ -12,11 +12,10 @@
   </head>
   <body>
     <div id="app" style='width:200px;border:1px solid #ccc;'>
-      <ul>
-        <li>hello {{msg}} world</li>
-      </ul>
+      <span>hello {{name}} world</span>
     </div>
-    <script src="./dist/vue.js"></script>
+    <!-- <script src="./dist/vue.js"></script> -->
+    <script src="https://unpkg.com/vue@2.6"></script>
     <script>
       const vm = new Vue({
         el: '#app',

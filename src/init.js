@@ -27,6 +27,7 @@ export function initMixin(Vue) {
                 options.render = render
             }
         }
+        
         mountCompoment(vm,el)
     }
 

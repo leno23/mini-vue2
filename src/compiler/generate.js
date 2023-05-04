@@ -42,7 +42,6 @@ function gen(el) {
             if (lastIndex < text.length) {
                 tokens.push(JSON.stringify(text.slice(lastIndex)))
             }
-            console.log(tokens);
             return `_v(${tokens.join('+')})`
         }
     }
@@ -56,7 +55,7 @@ function genChildren(el) {
 export function generate(el) {
     let children = genChildren(el)
     let code = `_c('${el.tag}',${
-        el.attrs.length ? genProps(el.attrs) : 'undefined'
+        el.attrs.length ? genProps(el.attrs) : '{}'
         }${
             children.length ? `,${children}` : ''
         })`

@@ -11,14 +11,18 @@
     <title>Document</title>
   </head>
   <body>
-    <div id="app" style='width:200px;border:1px solid #ccc;'>
-      <span>hello {{name}} world</span>
+    <div
+      id="app"
+      style="
+        width: 200px;
+        border: 1px solid #ccc;
+      ">
+      <span>hello {{name}} world -</span>
     </div>
-    <!-- <script src="./dist/vue.js"></script> -->
-    <script src="https://unpkg.com/vue@2.6"></script>
+    <script src="./dist/vue.js"></script>
+    <!-- <script src="https://unpkg.com/vue@2.6"></script> -->
     <script>
       const vm = new Vue({
-        el: '#app',
         data() {
           return {
             name: 'zf',
@@ -26,9 +30,17 @@
           }
         }
       })
+      vm.$mount('#app')
       //   vm._data.a = { age: 4 }
       console.log('vm', vm)
-      vm.arr.push({ b: 3 })
+      // vm.arr.push({ b: 3 })
+      setTimeout(() => {
+        vm.name = 'jack'
+        vm.name = 'tom'
+        // 同步更新，赋值多次更新多次，需要防抖处理，在最后一个变更结束时更新
+        // 数据修改，重新调用render方法生成vnode，然后重新生成新的dom
+        // vm._update(vm._render())
+      }, 1000)
     </script>
   </body>
 </html>

@@ -1,5 +1,6 @@
 import { isObject } from '../utils';
 import { arrayMethods } from './array';
+import { Dep } from './dep';
 
 class Observer {
     constructor(data) {
@@ -31,15 +32,23 @@ class Observer {
 function defineReactive(data, key, value) {
     // 对value进行递归处理
     if (key === '__ob__') return
+    let dep = new Dep()
     observe(value)
     Object.defineProperty(data, key, {
         get() {
+            if(Dep.target){
+                dep.depend()
+            }
             return value
         },
         set(newVal) {
-            // 赋的新值是对象
-            observe(newVal)
-            value = newVal
+            // NaN===NaN false
+            if(!Object.is(newVal,value)){
+                // 赋的新值是对象
+                observe(newVal)
+                value = newVal
+                dep.notify()
+            }
         }
     })
 }

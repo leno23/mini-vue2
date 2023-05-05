@@ -17,17 +17,30 @@
         width: 200px;
         border: 1px solid #ccc;
       ">
-      <span>hello {{arr}} world -</span>
+      <span>hello {{name}} world -- {{fullName}}--{{fullName}}</span>
     </div>
     <script src="./dist/vue.js"></script>
     <!-- <script src="https://unpkg.com/vue@2.6"></script> -->
     <script>
       const vm = new Vue({
-        name:'App',
+        name: 'App',
         data() {
           return {
             name: 'zf',
-            arr: [[1], { age: 10 }, 3]
+            arr: [[1], { age: 10 }, 3],
+            firstName: 'xiao',
+            lastName: 'ming'
+          }
+        },
+        computed: {
+          fullName: {
+            get() {
+              console.log('computed get fullname');
+              return this.firstName + this.lastName
+            },
+            set(newVal) {
+              console.log(newVal)
+            }
           }
         },
         methods: {},
@@ -47,10 +60,10 @@
       })
       vm.$mount('#app')
       //   vm._data.a = { age: 4 }
-      console.log('vm', vm)
+      window.vm = vm
       vm.arr[0].push(7)
       // vm.arr.push({ b: 3 })
-      vm.$watch('name',() => {
+      vm.$watch('name', () => {
         console.log('$watch name3')
       })
       setTimeout(() => {

@@ -11,6 +11,9 @@ export function initState(vm) {
     if (opts.watch) {
         initWatch(vm, opts.watch)
     }
+    if (opts.computed) {
+        initComputed(vm, opts.computed)
+    }
 }
 
 
@@ -33,7 +36,7 @@ function initData(vm) {
     observe(data)
 }
 export function stateMixin(Vue) {
-    Vue.prototype.$watch = function (exprOrFn, cb, options={}) {
+    Vue.prototype.$watch = function (exprOrFn, cb, options = {}) {
         let vm = this
         // 用户watcher 和 渲染watcher 区分
         options.user = true
@@ -55,6 +58,27 @@ function initWatch(vm, watch) {
     }
 }
 
-function createWatcher (vm,key,handler) {
-    return vm.$watch(key,handler)
+function createWatcher(vm, key, handler) {
+    return vm.$watch(key, handler)
+}
+
+function initComputed(vm, computed) {
+    for (let key in computed) {
+        let userDef = computed[key]
+        let getter = typeof userDef === 'function' ? userDef : userDef.get
+        // 每个计算属性本质也是一个watcher
+        let watcher = new Watcher(vm, getter, () => { }, { lazy: true })
+        defineComputed(vm, key, userDef)
+    }
+}
+
+function defineComputed (vm,key,userDef) {
+    let sharedProperty = {}
+    if(typeof userDef === 'function'){
+        sharedProperty.get = userDef.get
+    }else{
+        sharedProperty.get = userDef.get
+        sharedProperty.set = userDef.set
+    }
+    Object.defineProperty(vm,key,sharedProperty)
 }

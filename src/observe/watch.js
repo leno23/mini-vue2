@@ -12,6 +12,7 @@ export class Watcher {
         this.getters = exprOrFn
         this.exprOrFn = exprOrFn
         this.user = !!options.user
+        this.lazy = !!options.lazy
         this.deps = []
         this.value = undefined
         this.depsId = new Set()
@@ -32,7 +33,7 @@ export class Watcher {
         }
 
         // 初始化取一次值
-        this.value = this.get()
+        this.value = this.lazy ? undefined : this.get()
     }
     // 组件状态变化时触发
     get() {
@@ -64,8 +65,8 @@ export class Watcher {
         // 更新老值
         this.value = newVal
         // 如果是用户watcher，执行回调,传入新值和老值
-        if(this.user){
-            this.cb.call(this.vm,oldVal,newVal)
+        if (this.user) {
+            this.cb.call(this.vm, oldVal, newVal)
         }
     }
     update() {

@@ -17,7 +17,7 @@
         width: 200px;
         border: 1px solid #ccc;
       ">
-      <span>hello {{name}} world -- {{fullName}}--{{fullName}}</span>
+      <span>hello {{name}} world --{{fullName}}</span>
     </div>
     <script src="./dist/vue.js"></script>
     <!-- <script src="https://unpkg.com/vue@2.6"></script> -->
@@ -67,8 +67,6 @@
         console.log('$watch name3')
       })
       setTimeout(() => {
-        vm.name = 'jack'
-        // vm.name = 'tom'
         // 同步更新，赋值多次更新多次，需要防抖处理，在最后一个变更结束时更新
         // 数据修改，重新调用render方法生成vnode，然后重新生成新的dom
         // vm._update(vm._render())

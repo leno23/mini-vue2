@@ -46,6 +46,7 @@ function defineReactive(data, key, value) {
     // 对value进行递归处理
     if (key === '__ob__') return
     let dep = new Dep()
+    console.log(key,dep);
     let childOb = observe(value)
     Object.defineProperty(data, key, {
         get() {

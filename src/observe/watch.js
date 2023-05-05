@@ -12,7 +12,7 @@ export class Watcher {
         this.getters = exprOrFn
         this.exprOrFn = exprOrFn
         this.user = !!options.user
-        this.lazy = !!options.lazy
+        this.dirty = this.lazy = !!options.lazy
         this.deps = []
         this.value = undefined
         this.depsId = new Set()
@@ -70,6 +70,24 @@ export class Watcher {
         }
     }
     update() {
-        queueWatcher(this)
+        if (this.lazy) {
+            this.dirty = true
+        } else {
+
+            queueWatcher(this)
+        }
+    }
+    evaluate() {
+        // 表示取过值了 
+        this.dirty = false
+        this.value = this.get()
+    }
+    depend(){
+        let i = this.deps.length
+        while(i--){
+            // computed中依赖的state没有在render中读取
+            // 那么，也需要依赖的state的渲染watcher
+            this.deps[i].depend()
+        }
     }
 }

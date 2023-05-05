@@ -14,14 +14,20 @@ export class Dep {
     addSub(watcher) {
         this.subs.push(watcher)
     }
-    notify(){
+    notify() {
         this.subs.forEach(watcher => watcher.update())
     }
 }
+
+https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8e5e9befda7048869f50a8733a34ed03~tplv-k3u1fbpfcp-watermark.image
 Dep.target = null
+// 使用栈结构 render watcher和computed watcher的层级结构
+let stack = []
 export function pushTarget(watcher) {
     Dep.target = watcher
+    stack.push(watcher)
 }
 export function popTarget() {
-    Dep.target = null
+    stack.pop()
+    Dep.target = stack[stack.length - 1]
 }

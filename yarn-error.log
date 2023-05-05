@@ -1,5 +1,5 @@
 Arguments: 
-  D:\software\nodejs\node.exe D:\software\nodejs\node_global_modules\node_modules\yarn\bin\yarn.js serve
+  D:\software\nodejs\node.exe D:\software\nodejs\node_global_modules\node_modules\yarn\bin\yarn.js add body-parser concurrently express nodemon
 
 PATH: 
   D:\software\Git\mingw64\bin;D:\software\Git\usr\bin;C:\Users\11020\bin;C:\Program Files (x86)\Intel\iCLS Client;C:\Program Files\Intel\iCLS Client;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Intel\WiFi\bin;C:\Program Files\Common Files\Intel\WirelessCommon;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;D:\software\Git\cmd;D:\software\nodejs;D:\software\nodejs\node_global_modules;C:\Users\11020\AppData\Local\pnpm;C:\Users\11020\AppData\Local\Microsoft\WindowsApps;D:\software\Microsoft VS Code\bin;C:\Users\11020\AppData\Roaming\npm
@@ -14,31 +14,32 @@ Platform:
   win32 x64
 
 Trace: 
-  SyntaxError: D:\project\mini-vue2\package.json: Unexpected token , in JSON at position 79
-      at JSON.parse (<anonymous>)
-      at D:\software\nodejs\node_global_modules\node_modules\yarn\lib\cli.js:1629:59
-      at Generator.next (<anonymous>)
-      at step (D:\software\nodejs\node_global_modules\node_modules\yarn\lib\cli.js:310:30)
-      at D:\software\nodejs\node_global_modules\node_modules\yarn\lib\cli.js:321:13
+  Error: https://registry.yarnpkg.com/web-push: ETIMEDOUT
+      at Timeout._onTimeout (D:\software\nodejs\node_global_modules\node_modules\yarn\lib\cli.js:141550:19)
+      at listOnTimeout (node:internal/timers:569:17)
+      at process.processTimers (node:internal/timers:512:7)
 
 npm manifest: 
   {
     "name": "mini-vue2",
     "version": "1.0.0",
-    "main": "index.js",
-    "type": ,
+    "main": "./src/index.js",
+    "type": "module",
     "repository": "https://github.com/leno23/mini-vue2.git",
     "author": "wuyangfan <1102042793@qq.com>",
     "license": "MIT",
-    "scripts":{
-      "serve":"rollup -c -w"
+    "scripts": {
+      "serve": "rollup -c -w",
+      "server":"concurrently \"nodemon static-server/server.js\" \"nodemon server.js\""
     },
     "devDependencies": {
+      "web-push":"^3.4.4",
       "@babel/core": "^7.21.8",
       "@babel/preset-env": "^7.21.5",
       "rollup": "^3.21.3",
       "rollup-plugin-babel": "^4.4.0"
-    }
+    },
+    "dependencies": {}
   }
 
 yarn manifest: 

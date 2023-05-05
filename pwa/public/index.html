@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="manifest" href="/manifest.json">
+    <link rel='apple-touch-icon' href='/icon.png'>
+    <!-- 添加到主屏后的标题 和 short_name一致 -->
+    <meta name='apple-mobile-web-app-title' content='标题'>
+    <!-- 隐藏safari地址栏 standalone模式下默认隐藏 -->
+    <meta name='apple-mobile-web-app-capable' content='yes'>
+    <!-- 设置状态栏颜色 -->
+    <meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
+</head>
+<body>
+    <style>
+        *{
+            margin:0;
+            list-style: none;
+        }
+        ul{
+            width: 100%;
+            display:flex;
+            flex-wrap:wrap;
+        }
+        img{
+            width:200px;
+            margin:15px;
+        }
+    </style>
+    <ul></ul>
+    <script src="../main.js" type='module'></script>
+</body>
+</html>

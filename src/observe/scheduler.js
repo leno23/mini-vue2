@@ -5,12 +5,13 @@ let has = {}
 let pending = false
 
 function flushSchedulerQueue() {
+    console.log('%cqueueWatchers', 'color:green',queue);
     for (let i = 0; i < queue.length; i++) {
         queue[i].run()
     }
     queue = []
     has = {}
-    pending = true
+    pending = false
 }
 // 缓存watcher
 export function queueWatcher(watcher) {

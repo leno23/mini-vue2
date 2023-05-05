@@ -23,6 +23,7 @@
     <!-- <script src="https://unpkg.com/vue@2.6"></script> -->
     <script>
       const vm = new Vue({
+        name:'App',
         data() {
           return {
             name: 'zf',
@@ -32,7 +33,7 @@
         methods: {},
         watch: {
           name(oldVal, newVal) {
-            console.log('-----',oldVal, newVal)
+            console.log('-----', oldVal, newVal)
           },
           name: [
             () => {
@@ -49,6 +50,9 @@
       console.log('vm', vm)
       vm.arr[0].push(7)
       // vm.arr.push({ b: 3 })
+      vm.$watch('name',() => {
+        console.log('$watch name3')
+      })
       setTimeout(() => {
         vm.name = 'jack'
         // vm.name = 'tom'

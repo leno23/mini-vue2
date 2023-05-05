@@ -43,6 +43,7 @@ export function stateMixin(Vue) {
 
 function initWatch(vm, watch) {
     for (let key in watch) {
+        console.log(key);
         let handler = watch[key]
         if (Array.isArray(handler)) {
             for (let i = 0; i < handler.length; i++) {

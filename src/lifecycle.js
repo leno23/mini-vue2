@@ -12,7 +12,7 @@ export function lifecycleMixin(Vue) {
 
 export function mountCompoment(vm, el) {
     let updateComponent = () => {
-        console.log('update');
+        console.log(`%c组件${vm.$options.name}--update`,'color:#f00');
         vm._update(vm._render())
     }
     // 每个组件渲染时对应一个watcher

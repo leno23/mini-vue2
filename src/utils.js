@@ -32,7 +32,9 @@ if (Promise) {
     }
 } else {
     // setTimeout在IOS有bug，有时会不执行
-    timerFn = setTimeout(flushCallbacks)
+    timerFn = () => {
+        setTimeout(flushCallbacks)
+    } 
 }
 
 // 组件更新 和用户手动调$nextTick 都会掉nextTick，按照调用循序依次执行
@@ -42,6 +44,7 @@ export function nextTick(cb) {
     // 多次调用  防抖处理
     if (!waiting) {
         waiting = true
+        console.log('%c【队列中需要处理的callbacks】','color:orange', callbacks)
         timerFn()
     }
 }   

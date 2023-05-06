@@ -2,12 +2,24 @@ const CACHE_NAME = 'cache_v' + 3
 const CACHE_LIST = [
     '/',
     '/index.html',
+    '/manifest.json',
     '/main.js',
+    '/icon.png',
     '/index.css',
     '/api/list'
 ]
 
 // 当断网时  我需要拦截请求，会用缓存的结果
+
+async function fetchAndSave(request) {
+    let res = await fetch(request)  // 返回的数据流，本次消费的内容下次就没有了
+    // 为了保证不破坏原有的响应结果
+    let cloneRes = res.clone()
+    let cache = await caches.open(CACHE_NAME)
+    await cache.put(request, cloneRes)
+    return res
+}
+
 // 核心就是拦截请求
 self.addEventListener('fetch', (e) => {
     // serviceWorker不支持ajax，但是支持fetch
@@ -17,7 +29,16 @@ self.addEventListener('fetch', (e) => {
     if (url.origin != self.origin) {
         return
     }
-    // 对请求路径进行拦截
+    // 接口请求后立即进行缓存
+    if (e.request.url.includes('/api')) {
+
+        return e.respondWith(
+            // 断网了请求报错，从缓存中找到数据返回
+            fetchAndSave(e.request).catch(res => {
+                return caches.match(e.request)
+            })
+        )
+    }
     e.respondWith(
         // 断网了请求报错，从缓存中找到数据返回
         fetch(e.request).catch(res => {

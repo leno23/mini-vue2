@@ -1,0 +1,13 @@
+*{
+    margin:0;
+    list-style: none;
+}
+ul{
+    width: 100%;
+    display:flex;
+    flex-wrap:wrap;
+}
+img{
+    width:200px;
+    margin:15px;
+}

@@ -13,29 +13,16 @@
     <meta name='apple-mobile-web-app-capable' content='yes'>
     <!-- 设置状态栏颜色 -->
     <meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
+    <link rel="stylesheet" href="./index.css">
 </head>
 <body>
-    <style>
-        *{
-            margin:0;
-            list-style: none;
-        }
-        ul{
-            width: 100%;
-            display:flex;
-            flex-wrap:wrap;
-        }
-        img{
-            width:200px;
-            margin:15px;
-        }
-    </style>
+    <h1>PWA网站</h1>
     <ul></ul>
-    <script src="../main.js" type='module'></script>
+    <script src="./main.js" type='module'></script>
     <script>
         window.addEventListener('load',async ()=>{
             if('serviceWorker' in navigator){
-                navigator.serviceWorker.register()
+                let registration = await navigator.serviceWorker.register('/sw.js')
             }
         })
     </script>

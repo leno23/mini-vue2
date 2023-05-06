@@ -32,5 +32,12 @@
     </style>
     <ul></ul>
     <script src="../main.js" type='module'></script>
+    <script>
+        window.addEventListener('load',async ()=>{
+            if('serviceWorker' in navigator){
+                navigator.serviceWorker.register()
+            }
+        })
+    </script>
 </body>
 </html>

@@ -25,7 +25,6 @@ self.addEventListener('fetch', (e) => {
     // serviceWorker不支持ajax，但是支持fetch
     // 如果是静态资源  不做拦截
     let url = new URL(e.request.url)
-    console.log(url.origin, self.origin);
     if (url.origin != self.origin) {
         return
     }
@@ -63,7 +62,6 @@ self.addEventListener('install', (e) => {
 })
 async function clearCache() {
     let keys = await caches.keys()
-    console.log(keys);
     return Promise.all(keys.map(key => {
         if (key !== CACHE_NAME) {
             return caches.delete(key)
@@ -74,5 +72,9 @@ async function clearCache() {
 // serviceWorker 不是立即生效，需要在下一次访问的时候才生效
 // 先清空之前缓存的数据，再激活serviceWorker
 self.addEventListener('activate', (e) => {
-    e.waitUntil(Promise.all([clearCache(), clints.claim()])) //激活后立刻让serviceWorker拥有控制权
+    e.waitUntil(Promise.all([clearCache(), clients.claim()])) //激活后立刻让serviceWorker拥有控制权
+})
+
+self.addEventListener('push', e => {
+    self.registration.showNotification(e.data.text())
 })

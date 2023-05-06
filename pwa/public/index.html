@@ -1,30 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="X-UA-Compatible"
+      content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="manifest" href="/manifest.json">
-    <link rel='apple-touch-icon' href='/icon.png'>
+    <link rel="manifest" href="/manifest.json" />
+    <link
+      rel="apple-touch-icon"
+      href="/icon.png" />
     <!-- 添加到主屏后的标题 和 short_name一致 -->
-    <meta name='apple-mobile-web-app-title' content='标题'>
+    <meta
+      name="apple-mobile-web-app-title"
+      content="标题" />
     <!-- 隐藏safari地址栏 standalone模式下默认隐藏 -->
-    <meta name='apple-mobile-web-app-capable' content='yes'>
+    <meta
+      name="apple-mobile-web-app-capable"
+      content="yes" />
     <!-- 设置状态栏颜色 -->
-    <meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
-    <link rel="stylesheet" href="./index.css">
-</head>
-<body>
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent" />
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
     <h1>PWA网站</h1>
     <ul></ul>
-    <script src="./main.js" type='module'></script>
+    <script
+      src="./main.js"
+      type="module"></script>
     <script>
-        window.addEventListener('load',async ()=>{
-            if('serviceWorker' in navigator){
-                let registration = await navigator.serviceWorker.register('/sw.js')
-            }
-        })
+      window.addEventListener(
+        'load',
+        async () => {
+          if ('serviceWorker' in navigator) {
+            let registration =
+              await navigator.serviceWorker.register(
+                '/sw.js'
+              )
+              function urlB64ToUint8Array(base64String){
+                const padding = '='.repeat((4 - base64String.length % 4) % 4)
+                const base64 = (base64String + padding)
+                  .replace(/-/g, '+')
+                  .replace(/_/g, '/')
+                const rawData = window.atob(base64)
+                const outputArray = new Uint8Array(rawData.length)
+                for (let i = 0; i < rawData.length; ++i) {
+                  outputArray[i] = rawData.charCodeAt(i)
+                }
+                return outputArray
+              }
+            await navigator.serviceWorker.ready
+            const pushSubscription =
+              await registration.pushManager.subscribe(
+                {
+                  userVisibleOnly: true,
+                  applicationServerKey:
+                  urlB64ToUint8Array('BIHg0gbHrV__O-ZAMCOp4hbVn8CRNNXjvirpR_hPjCeoBqpHbNBkccBm7aIEbvWN4lN2lJxT-B8VQ3USM6YC1O8')}
+              )
+            console.log(pushSubscription)
+            fetch('/add-sub', {
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              method: 'post',
+              body: JSON.stringify(
+                pushSubscription
+              )
+            })
+          }
+        }
+      )
     </script>
-</body>
+  </body>
 </html>

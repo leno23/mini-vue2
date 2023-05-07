@@ -12,11 +12,21 @@ export function lifecycleMixin(Vue) {
 
 export function mountCompoment(vm, el) {
     let updateComponent = () => {
-        console.log(`%c组件${vm.$options.name}--update`,'color:#f00');
+        console.log(`%c组件${vm.$options.name}--update`, 'color:#f00');
         vm._update(vm._render())
     }
+    callHook(vm,'beforeMount')
     // 每个组件渲染时对应一个watcher
     new Watcher(vm, updateComponent, () => {
         console.log('组件更新完成');
     }, true)
+}
+
+export function callHook(vm, hook) {
+    const handlers = vm.$options[hook]
+    if (handlers) {
+        for (let cb of handlers) {
+            cb.call(vm)
+        }
+    }
 }

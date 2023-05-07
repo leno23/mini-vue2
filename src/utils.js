@@ -78,10 +78,18 @@ function mergeHook(parentVal, childVal) {
 lifecycleHooks.forEach(hook => {
     strats[hook] = mergeHook
 })
-function isObject(val) {
-    return typeof val === 'object' && val !== null
+
+strats.components = function (parentVal, childVal) {
+    let options = Object.create(parentVal)
+    if (childVal) {
+        for (let key in childVal) {
+            options[key] = childVal[key]
+        }
+    }
+    return options
 }
-function mergeOptions(parent, child) {
+
+export function mergeOptions(parent, child) {
     const options = {}
     // 处理parent原有的选项
     for (let key in parent) {

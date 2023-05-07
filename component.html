@@ -17,24 +17,21 @@
         width: 200px;
         border: 1px solid #ccc;
       ">
-      <span>hello {{name}} world </span>
+      <my-button></my-button>
     </div>
     <script src="./dist/vue.js"></script>
     <!-- <script src="https://unpkg.com/vue@2.6"></script> -->
     <script>
-      // 内部将钩子函数 存到一个数组里，当到达某个阶段后依次执行
-      Vue.mixin({
-        beforeCreate() {
-          console.log('before create1')
-        }
-      })
-      Vue.mixin({
-        beforeCreate() {
-          console.log('before create2')
-        }
+      Vue.component('my-button', {
+        template: `<button>hello</button>`
       })
       const vm = new Vue({
         el: '#app',
+        components: {
+          'my-button': {
+            template: `<button>hello2</button>`
+          }
+        },
         data() {
           return { name: 'wyf' }
         },
@@ -42,6 +39,7 @@
           console.log('before create3')
         }
       })
+      window.vm = vm
     </script>
   </body>
 </html>

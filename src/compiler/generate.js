@@ -51,6 +51,7 @@ function genChildren(el) {
     if (children.length) {
         return children.map(child => gen(child)).join(',')
     }
+    return []
 }
 export function generate(el) {
     let children = genChildren(el)

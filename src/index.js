@@ -1,3 +1,4 @@
+import { initGlobalApi } from './global-api/index'
 import { initMixin } from './init'
 import { lifecycleMixin } from './lifecycle'
 import { renderMixin } from './render'
@@ -12,4 +13,5 @@ initMixin(Vue)
 renderMixin(Vue)  // _update
 lifecycleMixin(Vue)  //_
 stateMixin(Vue)
+initGlobalApi(Vue)
 export default Vue

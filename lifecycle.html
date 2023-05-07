@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="X-UA-Compatible"
+      content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div
+      id="app"
+      style="
+        width: 200px;
+        border: 1px solid #ccc;
+      ">
+      <span>hello {{name}} world --{{fullName}}</span>
+    </div>
+    <script src="./dist/vue.js"></script>
+    <!-- <script src="https://unpkg.com/vue@2.6"></script> -->
+    <script>
+      // 内部将钩子函数 存到一个数组里，当到达某个阶段后依次执行
+      Vue.mixin({
+        beforeCreate() {
+          console.log('before create1')
+        }
+      })
+      const vm = new Vue({
+        el:'#app',
+        beforeCreate(){
+
+        }
+      })
+    </script>
+  </body>
+</html>

@@ -29,15 +29,18 @@
       document.body.append(Vue.createEl(oldVnode))
 
       let tmp2 = `<ul  style="color:blue;" b="2">
-        <li key="D">D</li>
+        <li key="E">E</li>
         <li key="A">A</li>
-        <li key="B">B</li>
         <li key="C">C</li>
+        <li key="D">D</li>
         </ul>`
       let render2 = Vue.compile(tmp2)
       let newVnode = render2.call(vm1)
       setTimeout(
-        () => Vue.patch(oldVnode, newVnode),
+        () => {
+            debugger
+            Vue.patch(oldVnode, newVnode)
+        },
         1000
       )
     </script>

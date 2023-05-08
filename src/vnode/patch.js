@@ -59,8 +59,16 @@ function pathChildren(el, oldChilren, newChildren) {
     function isSameVnode(n1, n2) {
         return n1.type == n2.type && n1.key == n2.key
     }
-    let map = makeIndexByKey(oldChilren)
+    let keysMap = makeIndexByKey(oldChilren)
     while (oldStartIndex <= oldEndIndex && newStartIndex <= newEndIndex) {
+        // 头头比较 尾尾比较 头尾比较  尾头比较
+        // 优化了 向后添加 向前添加 尾部移动到头部  头部移动到尾部 反转
+        if (!oldStartVnode) {
+            oldStartVnode = oldChilren[++oldStartIndex]
+        }
+        if (!oldEndVnode) {
+            oldEndIndex = oldChilren[--oldEndIndex]
+        }
         if (isSameVnode(oldStartVnode, newStartVnode)) {
             // 尾部有新增，头部一一对比
             patch(oldStartVnode, newStartVnode)
@@ -71,16 +79,33 @@ function pathChildren(el, oldChilren, newChildren) {
             patch(oldEndVnode, newEndVnode)
             oldEndVnode = oldChilren[--oldEndIndex]
             newEndVnode = newChildren[--newEndIndex]
-        }else if(isSameVnode(oldStartVnode,newEndVnode)){
+        } else if (isSameVnode(oldStartVnode, newEndVnode)) {
             // 头尾对比 reverse
-            patch(oldStartVnode,newEndVnode)
-            el.insertBefore(oldStartVnode.el,oldEndVnode.el.nextSibling)
+            patch(oldStartVnode, newEndVnode)
+            el.insertBefore(oldStartVnode.el, oldEndVnode.el.nextSibling)
             oldStartVnode = oldChilren[++oldStartIndex]
             newEndVnode = newChildren[--newEndIndex]
-        }else if(isSameVnode(oldEndVnode,newStartVnode)){
-            patch(oldEndVnode,newStartVnode)
-            el.insertBefore(oldEndVnode.el,oldStartVnode.el)
+        } else if (isSameVnode(oldEndVnode, newStartVnode)) {
+            patch(oldEndVnode, newStartVnode)
+            el.insertBefore(oldEndVnode.el, oldStartVnode.el)
             oldEndVnode = oldChilren[--oldEndIndex]
+            newStartVnode = newChildren[++newStartIndex]
+        } else {
+            // 乱序对比
+            // 1、需要根据key和对应的索引内容将老的内容生成映射表
+            // 找到新节点在老children中的下标
+            let moveIndex = keysMap[newStartVnode.key]
+            if (moveIndex == undefined) {
+                // 如果不能复用直接创建新的插入到老的节点开头处
+                el.insertBefore(createEl(newStartVnode), oldStartVnode.el)
+            } else {
+                let moveNode = oldChilren[moveIndex]
+                // 标记此节点已经被移动走了
+                oldChilren[moveIndex] = null
+                el.insertBefore(moveNode.el, oldStartVnode.el)
+                // 比较两个节点的属性
+                patch(moveNode, newStartVnode)
+            }
             newStartVnode = newChildren[++newStartIndex]
         }
 
@@ -95,7 +120,9 @@ function pathChildren(el, oldChilren, newChildren) {
     }
     if (oldStartIndex <= oldEndIndex) {
         for (let i = oldStartIndex; i <= oldEndIndex; i++) {
-            el.removeChild(oldChilren[i].el)
+            if (oldChilren[i] != null) {
+                el.removeChild(oldChilren[i].el)
+            }
         }
     }
 

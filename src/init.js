@@ -2,6 +2,7 @@ import { compileToFunction } from './compiler/parse'
 import { callHook, mountCompoment } from './lifecycle'
 import { initState } from './state'
 import { mergeOptions } from './utils'
+import { createEl, patch } from './vnode/patch'
 
 export function initMixin(Vue) {
 
@@ -12,11 +13,14 @@ export function initMixin(Vue) {
         callHook(vm,'beforeCreate')
         initState(vm)
         callHook(vm,'created')
-        console.log(vm.$options);
+        // console.log(vm.$options);
         if (vm.$options.el) {
             vm.$mount(vm.$options.el)
         }
     }
+    Vue.compile = compileToFunction
+    Vue.createEl = createEl
+    Vue.patch = patch
     Vue.prototype.$mount = function (el) {
         const vm = this
         const options = vm.$options

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="X-UA-Compatible"
+      content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script src="./dist/vue.js"></script>
+    <!-- <script src="https://unpkg.com/vue@2.6"></script> -->
+    <script>
+      // 内部将钩子函数 存到一个数组里，当到达某个阶段后依次执行
+      let vm1 = new Vue({
+        data: { msg: '123' }
+      })
+      let tmp1 = `<ul style="color:red;background:#ccc;" a="1">
+        <li key="A">A</li>
+        <li key="B">B</li>
+        <li key="C">C</li>
+        <li key="D">D</li>
+        </ul>`
+      let render1 = Vue.compile(tmp1)
+      let oldVnode = render1.call(vm1)
+      document.body.append(Vue.createEl(oldVnode))
+
+      let tmp2 = `<ul  style="color:blue;" b="2">
+        <li key="D">D</li>
+        <li key="A">A</li>
+        <li key="B">B</li>
+        <li key="C">C</li>
+        </ul>`
+      let render2 = Vue.compile(tmp2)
+      let newVnode = render2.call(vm1)
+      setTimeout(
+        () => Vue.patch(oldVnode, newVnode),
+        1000
+      )
+    </script>
+  </body>
+</html>

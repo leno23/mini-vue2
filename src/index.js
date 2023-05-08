@@ -14,4 +14,7 @@ renderMixin(Vue)  // _update
 lifecycleMixin(Vue)  //_
 stateMixin(Vue)
 initGlobalApi(Vue)
+
+
+
 export default Vue

@@ -5,7 +5,14 @@ import { nextTick } from './utils';
 export function lifecycleMixin(Vue) {
     Vue.prototype._update = function (vnode) {
         const vm = this
-        vm.$el = patch(vm.$el, vnode)
+        const preVnode = vm._vnode
+        if(!preVnode){
+            vm.$el = patch(vm.$el, vnode)
+            vm._vnode = vnode
+        }else{
+            vm.$el = patch(preVnode, vnode)
+
+        }
     }
     Vue.prototype.$nextTick = nextTick
 }

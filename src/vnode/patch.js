@@ -1,6 +1,5 @@
 
 export function patch(oldVnode, vnode) {
-    debugger
     if (!oldVnode) {
         return createEl(vnode)
     }
@@ -38,6 +37,7 @@ export function patch(oldVnode, vnode) {
             el.innerHTML = ''
         }
     }
+    return vnode
 }
 
 function pathChildren(el, oldChilren, newChildren) {

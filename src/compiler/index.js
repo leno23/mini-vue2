@@ -54,6 +54,8 @@ function chars(text) {
 }
 
 export function parseHTML(html) {
+    root = null
+    stack.length = 0
     function advance(len) {
         html = html.slice(len)
     }

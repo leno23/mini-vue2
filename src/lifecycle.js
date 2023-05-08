@@ -20,6 +20,10 @@ export function mountCompoment(vm, el) {
     new Watcher(vm, updateComponent, () => {
         console.log('组件更新完成');
     }, true)
+    if(!vm.isMounted){
+        vm.isMounted = true
+        callHook(vm,'mounted')
+    }
 }
 
 export function callHook(vm, hook) {

@@ -24,12 +24,12 @@ export function initMixin(Vue) {
         vm.$el = el
         if (!options.render) {
             let template = options.template
+            // 用户没有传递el,把el的内容作为模板
             if (!template && el) {
-                let template = el.outerHTML
-                console.log(template);
-                let render = compileToFunction(template)
-                options.render = render
+                template = el.outerHTML
             }
+            let render = compileToFunction(template)
+            options.render = render
         }
 
         mountCompoment(vm, el)

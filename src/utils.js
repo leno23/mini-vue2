@@ -113,17 +113,14 @@ export function mergeOptions(parent, child) {
             if (isObject(parent[key]) && isObject(child[key])) {
                 options[key] = { ...parentVal, ...childVal }
             } else {
-                options[key] = child[key]
+                options[key] = child[key] || parent[key]
             }
         }
     }
     return options
 }
-console.log(mergeOptions(
-    { a: 1, data: { a: 1 } },
-    {
-        data: { b: 2 }, a: 100, beforeCreate() {
 
-        },
-    }
-));
+export function isReservedTag(str) {
+    let reservedTag = 'a,div,span,p,img,button,ul,li,ol,dl,dt,dd,input'
+    return reservedTag.includes(str)
+}

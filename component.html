@@ -22,6 +22,13 @@
     <script src="./dist/vue.js"></script>
     <!-- <script src="https://unpkg.com/vue@2.6"></script> -->
     <script>
+      /*
+      1.给组件创建一个构造函数,基于Vue
+      2.开始生成虚拟节点，对组件进行特殊处理 data.hook = {init: function(){}}
+      3.生成dom元素，如果当前虚拟节点上有hook hook.init，说明是组件
+      4.对组件进行 new Ctor().$mount()  => vm.$el 挂载组件
+      5.将组件的$el插入到父容器中
+      */
       Vue.component('my-button', {
         template: `<button>hello</button>`
       })
@@ -29,14 +36,23 @@
         el: '#app',
         components: {
           'my-button': {
-            template: `<button>hello2</button>`
+            template: `<button>hello2</button>`,
+            beforeCreate() {
+              console.log('beforeCreate child')
+            },
+            mounted() {
+              console.log('mounted child')
+            }
           }
         },
         data() {
           return { name: 'wyf' }
         },
         beforeCreate() {
-          console.log('before create3')
+          console.log('beforeCreate parent')
+        },
+        mounted() {
+          console.log('mounted parent')
         }
       })
       window.vm = vm
